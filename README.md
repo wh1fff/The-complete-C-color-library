@@ -17,13 +17,13 @@
 ./program --test
 
 ## ⚡️ Примеры использования
-
-./program --color green
-./program --color rgb(255,0,0)
-./program --color "#ff0000"
-./program --gradient red blue 5
-./program --test
-
+```bash
+- ./program --color green
+- ./program --color rgb(255,0,0)
+- ./program --color "#ff0000"
+- ./program --gradient red blue 5
+- ./program --test
+```
 ## 📦 Запуск
 
 1. Скачайте все файлы
