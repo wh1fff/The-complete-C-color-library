@@ -3,14 +3,14 @@
 
 void printHelp() {
     std::cout << "Usage:\n"
-              << "  ./program --color <name|hex|rgb>\n"
+              << "  ./program --color <name>\n"
               << "  ./program --gradient <from> <to> <steps>\n"
+              << "  ./program --mix <color1> <color2>\n"
               << "  ./program --test\n\n"
               << "Examples:\n"
               << "  ./program --color green\n"
-              << "  ./program --color \"rgb(255,0,0)\"\n"
-              << "  ./program --color \"#ff0000\"\n"
               << "  ./program --gradient red blue 5\n"
+              << "  ./program --mix red blue\n"
               << "  ./program --test\n";
 }
 
@@ -23,23 +23,7 @@ int main(int argc, char* argv[]) {
     std::string mode = argv[1];
 
     if (mode == "--color" && argc > 2) {
-        std::string colorArg = argv[2];
-        Color c;
-        
-        if (colorArg.find("rgb(") == 0) {
-            unsigned char r, g, b;
-            sscanf(colorArg.c_str(), "rgb(%hhu,%hhu,%hhu)", &r, &g, &b);
-            c = Color(r, g, b);
-        }
-        else if (colorArg[0] == '#') {
-            unsigned int hex;
-            sscanf(colorArg.c_str(), "#%x", &hex);
-            c = Color((hex >> 16) & 0xFF, (hex >> 8) & 0xFF, hex & 0xFF);
-        }
-        else {
-            c = Color(colorArg);
-        }
-
+        Color c(argv[2]);
         std::cout << "Color: " << c << "\n"
                   << "HEX: " << c.hex() << "\n"
                   << "RGB: " << c.rgbStr() << "\n"
@@ -54,6 +38,16 @@ int main(int argc, char* argv[]) {
         for (const auto& c : gradient) {
             std::cout << c << " " << c.hex() << "\n";
         }
+    }
+    else if (mode == "--mix" && argc > 3) {
+        Color c1(argv[2]);
+        Color c2(argv[3]);
+        Color result = c1 + c2;
+        
+        std::cout << "Mixed color (" << c1 << " + " << c2 << "):\n"
+                  << "RGB: " << result.rgbStr() << "\n"
+                  << "HEX: " << result.hex() << "\n"
+                  << "RGBA: " << result.rgbaStr() << "\n";
     }
     else if (mode == "--test") {
         Color red(255, 0, 0);
@@ -79,8 +73,10 @@ int main(int argc, char* argv[]) {
         std::cout << "red rgba: " << red.rgbaStr() << "\n";
         std::cout << "red hex: " << red.hex() << "\n";
 
-        Color mix = red / green;
-        std::cout << "red+green: " << mix << "\n";
+        Color mix1 = red / green;
+        Color mix2 = red + blue;
+        std::cout << "red / green: " << mix1 << "\n";
+        std::cout << "red + blue: " << mix2 << "\n";
     }
     else {
         printHelp();
