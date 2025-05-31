@@ -2,6 +2,7 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+#include <cstdio>
 
 unsigned char Color::clamp(int x) {
     if (x < 0) return 0;
@@ -19,22 +20,22 @@ Color::Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
 
 Color::Color(std::string name) : r(0), g(0), b(0), a(255) {
     name = lower(name);
-    if (name == "black") { r = 0; g = 0; b = 0; }
-    else if (name == "silver") { r = 192; g = 192; b = 192; }
-    else if (name == "gray") { r = 128; g = 128; b = 128; }
-    else if (name == "white") { r = 255; g = 255; b = 255; }
-    else if (name == "maroon") { r = 128; g = 0; b = 0; }
-    else if (name == "red") { r = 255; g = 0; b = 0; }
-    else if (name == "purple") { r = 128; g = 0; b = 128; }
-    else if (name == "fuchsia") { r = 255; g = 0; b = 255; }
-    else if (name == "green") { r = 0; g = 128; b = 0; }
-    else if (name == "lime") { r = 0; g = 255; b = 0; }
-    else if (name == "olive") { r = 128; g = 128; b = 0; }
-    else if (name == "yellow") { r = 255; g = 255; b = 0; }
-    else if (name == "navy") { r = 0; g = 0; b = 128; }
-    else if (name == "blue") { r = 0; g = 0; b = 255; }
-    else if (name == "teal") { r = 0; g = 128; b = 128; }
-    else if (name == "aqua") { r = 0; g = 255; b = 255; }
+    if (name == "black") r=g=b=0;
+    else if (name == "silver") r=g=b=192;
+    else if (name == "gray") r=g=b=128;
+    else if (name == "white") r=g=b=255;
+    else if (name == "maroon") r=128;
+    else if (name == "red") r=255;
+    else if (name == "purple") r=b=128;
+    else if (name == "fuchsia") r=b=255;
+    else if (name == "green") g=128;
+    else if (name == "lime") g=255;
+    else if (name == "olive") r=g=128;
+    else if (name == "yellow") r=g=255;
+    else if (name == "navy") b=128;
+    else if (name == "blue") b=255;
+    else if (name == "teal") g=b=128;
+    else if (name == "aqua") g=b=255;
 }
 
 std::tuple<unsigned char, unsigned char, unsigned char> Color::rgb() const {
@@ -58,18 +59,28 @@ std::string Color::rgbaStr() const {
 }
 
 std::string Color::hex() const {
-    std::stringstream s;
-    s << "#" << std::hex << std::setw(2) << std::setfill('0') << (int)r
-      << std::setw(2) << std::setfill('0') << (int)g
-      << std::setw(2) << std::setfill('0') << (int)b;
-    return s.str();
+    char buffer[8];
+    snprintf(buffer, sizeof(buffer), "#%02x%02x%02x", r, g, b);
+    return buffer;
 }
 
 Color Color::operator/(const Color& c) const {
-    return Color((r + c.r) / 2, (g + c.g) / 2, (b + c.b) / 2, (a + c.a) / 2);
+    return Color((r + c.r)/2, (g + c.g)/2, (b + c.b)/2, (a + c.a)/2);
 }
 
 std::ostream& operator<<(std::ostream& out, const Color& c) {
     out << c.rgbStr();
     return out;
+}
+
+std::vector<Color> Color::makeGradient(Color from, Color to, int steps) {
+    std::vector<Color> colors;
+    for (int i = 0; i < steps; i++) {
+        float t = (float)i/(steps-1);
+        unsigned char r = from.r*(1-t) + to.r*t;
+        unsigned char g = from.g*(1-t) + to.g*t;
+        unsigned char b = from.b*(1-t) + to.b*t;
+        colors.emplace_back(r, g, b);
+    }
+    return colors;
 }
