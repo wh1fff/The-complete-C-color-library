@@ -14,6 +14,7 @@
 ## ✏️ Интерфейс
 - ./program --color <название цвета|hex|rgb>
 - ./program --gradient <цвет1> <цвет2> <кол-во шагов>
+- ./program --mix <цвет1> <цвет2>
 - ./program --test
 
 ## ⚡️ Примеры использования
@@ -22,6 +23,7 @@
 ./program --color rgb(255,0,0)
 ./program --color "#ff0000"
 ./program --gradient red blue 5
+./program --mix red blue
 ./program --test
 ```
 ## 📦 Запуск
