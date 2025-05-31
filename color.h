@@ -1,9 +1,8 @@
-#ifndef COLOR_H_UNIQUE_20240615
-#define COLOR_H_UNIQUE_20240615
-
 #include <string>
+#include <vector>
 #include <tuple>
-#include <iostream>
+#ifndef COLOR_H
+#define COLOR_H
 
 class Color {
 private:
@@ -12,8 +11,8 @@ private:
     std::string lower(std::string s);
 
 public:
-    Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255);
-    explicit Color(std::string name);
+    Color(unsigned char r = 0, unsigned char g = 0, unsigned char b = 0, unsigned char a = 255);
+    Color(std::string name);
 
     unsigned char getR() const { return r; }
     unsigned char getG() const { return g; }
@@ -34,6 +33,8 @@ public:
 
     Color operator/(const Color& c) const;
     friend std::ostream& operator<<(std::ostream& out, const Color& c);
+
+    static std::vector<Color> makeGradient(Color from, Color to, int steps);
 };
 
 #endif
