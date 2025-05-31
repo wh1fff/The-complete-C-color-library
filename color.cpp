@@ -11,7 +11,7 @@ unsigned char Color::clamp(int x) {
 }
 
 std::string Color::lower(std::string s) {
-    for (char& c : s) c = std::tolower(c);
+    for (char& c : s) c = tolower(c);
     return s;
 }
 
@@ -68,6 +68,15 @@ Color Color::operator/(const Color& c) const {
     return Color((r + c.r)/2, (g + c.g)/2, (b + c.b)/2, (a + c.a)/2);
 }
 
+Color Color::operator+(const Color& c) const {
+    return Color(
+        static_cast<unsigned char>((r + c.r)/2),
+        static_cast<unsigned char>((g + c.g)/2),
+        static_cast<unsigned char>((b + c.b)/2),
+        static_cast<unsigned char>((a + c.a)/2)
+    );
+}
+
 std::ostream& operator<<(std::ostream& out, const Color& c) {
     out << c.rgbStr();
     return out;
@@ -77,9 +86,9 @@ std::vector<Color> Color::makeGradient(Color from, Color to, int steps) {
     std::vector<Color> colors;
     for (int i = 0; i < steps; i++) {
         float t = (float)i/(steps-1);
-        unsigned char r = from.r*(1-t) + to.r*t;
-        unsigned char g = from.g*(1-t) + to.g*t;
-        unsigned char b = from.b*(1-t) + to.b*t;
+        unsigned char r = static_cast<unsigned char>(from.r*(1-t) + to.r*t);
+        unsigned char g = static_cast<unsigned char>(from.g*(1-t) + to.g*t);
+        unsigned char b = static_cast<unsigned char>(from.b*(1-t) + to.b*t);
         colors.emplace_back(r, g, b);
     }
     return colors;
