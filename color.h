@@ -1,8 +1,9 @@
+#ifndef COLOR_H
+#define COLOR_H
+
 #include <string>
 #include <vector>
 #include <tuple>
-#ifndef COLOR_H
-#define COLOR_H
 
 class Color {
 private:
@@ -32,6 +33,7 @@ public:
     std::string hex() const;
 
     Color operator/(const Color& c) const;
+    Color operator+(const Color& c) const;
     friend std::ostream& operator<<(std::ostream& out, const Color& c);
 
     static std::vector<Color> makeGradient(Color from, Color to, int steps);
