@@ -12,17 +12,17 @@
 - Красивый вывод в консоль
 
 ## ✏️ Интерфейс
-./program --color <название цвета|hex|rgb>
-./program --gradient <цвет1> <цвет2> <кол-во шагов>
-./program --test
+- ./program --color <название цвета|hex|rgb>
+- ./program --gradient <цвет1> <цвет2> <кол-во шагов>
+- ./program --test
 
 ## ⚡️ Примеры использования
 ```bash
-- ./program --color green
-- ./program --color rgb(255,0,0)
-- ./program --color "#ff0000"
-- ./program --gradient red blue 5
-- ./program --test
+./program --color green
+./program --color rgb(255,0,0)
+./program --color "#ff0000"
+./program --gradient red blue 5
+./program --test
 ```
 ## 📦 Запуск
 
